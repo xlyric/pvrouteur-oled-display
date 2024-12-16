@@ -27,8 +27,8 @@ jobs:
      #   run: |
      #     source ~/.venv/bin/activate
       #    ./data-templates/generate-data.sh
-      - name: Build filesystem for all supported platforms
-        run: ~/.venv/bin/pio run -t buildfs
+      #- name: Build filesystem for all supported platforms
+      #  run: ~/.venv/bin/pio run -t buildfs
       - name: Compute version name
         id: version
         uses: proudust/gh-describe@v2.1.0
