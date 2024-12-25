@@ -52,6 +52,7 @@ void mdns_discover_routeur() {
         if (MDNS.hostname(i).indexOf("ROUTER") != 0) {
             Serial.println("Routeur trouvé");
             routeur_ip = MDNS.IP(i);
+            Serial.println(routeur_ip);
             break;
         }
     }     
