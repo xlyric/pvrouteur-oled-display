@@ -31,7 +31,7 @@ WiFiClient espClient;
 
 Task Task_oled(990, TASK_FOREVER, &oled_task); // tache oled
 Task Task_getdata(5000, TASK_FOREVER, &getdata_task); // tache de récupération des data
-Task meteo_data(60003, TASK_FOREVER, &meteo_task); // tache de récupération des données météo
+Task meteo_data(600003, TASK_FOREVER, &meteo_task); // tache de récupération des données météo toute les 10 minutes
 Scheduler runner;
 
 float dallas_temperature = 0.0;
