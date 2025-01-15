@@ -29,7 +29,7 @@ Voltage voltage;
 void getdata_task() {
     String payload; 
     // récupération du json sur la page web routeur_ip/status
-    httprouter.begin(espClient,"http://" + routeur_ip.toString() + "/state");
+    httprouter.begin(espClient,"http://" + routeur_ip.toString() + "/stateshort");
     int httpCode = httprouter.GET();
     if (httpCode > 0) {
         payload = httprouter.getString();

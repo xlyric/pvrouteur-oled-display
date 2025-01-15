@@ -2,8 +2,13 @@
 #define CONFIG
 
 // oled display I2C    
+#ifdef D1_MINI
 #define OLED_SDA D1
 #define OLED_SCL D2
+#elif ESP01
+#define OLED_SDA 0
+#define OLED_SCL 2
+#endif
 
 const char* HOSTNAME= "Sunstain-OLED";
 
@@ -21,9 +26,9 @@ const char* HOSTNAME= "Sunstain-OLED";
 
 const boolean IS_METRIC = true;
 String OPEN_WEATHER_MAP_APP_ID = "";
-//"e752bfc6b4d4b1ba937ac9d192327126";
+
 String OPEN_WEATHER_MAP_LOCATION = "" ;
-//"Morangis,FR";
+
 
 // Pick a language code from this list:
 // Arabic - ar, Bulgarian - bg, Catalan - ca, Czech - cz, German - de, Greek - el,

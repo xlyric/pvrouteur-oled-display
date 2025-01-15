@@ -51,6 +51,10 @@ les informations seront stockées en ROM jusqu'a "Erase Flash" de l'ESP8266
 ## Boîtier
 Le modèle de boîtier pour l'impression 3D se trouve sur internet. [Lien vers le modèle](https://www.thingiverse.com/thing:2884823)
 
+Il existe aussi sur Aliexpress l'ensemble en un seul pack, il reste juste souder les composants et à uploader le projet
+[ici](https://fr.aliexpress.com/item/1005006902051922.html)
+[ou là](https://fr.aliexpress.com/item/1005006293267065.html)
+
 ## Licence
 Ce projet est sous licence MIT.
 
