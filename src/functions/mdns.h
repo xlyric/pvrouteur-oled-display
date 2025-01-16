@@ -4,8 +4,10 @@
 #include <ESP8266mDNS.h>
 #include <Arduino.h>
 #include "config/config.h"
+#include "config/enums.h"
 
 extern IPAddress routeur_ip;
+extern Configmqtt configmqtt; 
 
 void mdns_hello(String esp_name) {
     
@@ -48,6 +50,12 @@ void mdns_discover_routeur() {
       Serial.print(":");
       Serial.print(MDNS.port(i));
       Serial.println(")");
+      
+      // récupération de l'adresse mac du routeur PV-ROUTER-xxxx.local -> xxxx pour le MQTT
+
+      configmqtt.mac_routeur = MDNS.hostname(i).substring(10,14);
+      Serial.println(configmqtt.mac_routeur);
+
       // si le nom contient la chaine routeur on sort ( en lowercase)
         if (MDNS.hostname(i).indexOf("ROUTER") != 0) {
             Serial.println("Routeur trouvé");

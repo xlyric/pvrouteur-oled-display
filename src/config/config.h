@@ -8,17 +8,20 @@
 #elif ESP01
 #define OLED_SDA 0
 #define OLED_SCL 2
+#define RX 3
 #endif
+
+//#define RX 3
 
 const char* HOSTNAME= "Sunstain-OLED";
 
 #define VERSION "1.0"
 
 // config mqtt
-#define MQTT_SERVER "192.168.1.22"
-#define MQTT_PORT 1883
-#define MQTT_USER "mosquitto"
-#define MQTT_PASSWORD "test-123"
+//#define MQTT_SERVER "192.168.1.22"
+//#define MQTT_PORT 1883
+//#define MQTT_USER "mosquitto"
+//#define MQTT_PASSWORD "test-123"
 
 // OpenWeatherMap Settings
 // Sign up here to get an API key:

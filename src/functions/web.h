@@ -7,6 +7,9 @@
 #include <ESPAsyncWiFiManager.h>
 #include <Preferences.h>  // pour la sauvegarde des données
 
+#include "config/enums.h"
+extern Configmqtt configmqtt;
+
 DNSServer dns;
 AsyncWebServer server(80);
 AsyncWiFiManager wifiManager(&server,&dns);
@@ -38,7 +41,7 @@ struct Configmeteo {
   public:bool recup_map() {
   preferences.begin("OPEN_WEATHER", false);
   String tmp; 
-  tmp = preferences.getString("id", "AP");
+  tmp = preferences.getString("id", "");
   tmp.toCharArray(MAP_ID,36);
   tmp = preferences.getString("city", "");
   tmp.toCharArray(MAP_LOCATION,65);
@@ -75,8 +78,37 @@ void call_pages() {
         // et on applique les changements
         OPEN_WEATHER_MAP_LOCATION = configmeteo.MAP_LOCATION;
       }
-    String message = "Create ID https://docs.thingpulse.com/how-tos/openweathermap-key/ \n"; 
-    request->send(200, "text/plain", message);
+
+      // si le paramettre est mqttpass on sauvegarde la valeur
+      if (request->hasParam("mqttpass")) {
+        request->getParam("mqttpass")->value().toCharArray(configmqtt.MQTT_PASSWORD,65);
+        configmqtt.sauve_mqtt();
+      }
+
+    const char* message = R"(
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Weather Info</title>
+</head>
+<body>
+    <h1>You can add weather information!</h1>
+    <p>To do this, you'll need to create an API key by following the <a href="https://docs.thingpulse.com/how-tos/openweathermap-key/">instructions on the website</a></p>
+    <p>Once you have your API key and city, you can inject it into your web pages with a GET request in this format :</p>
+    <pre>
+        http://myIP.oled/set?city=mycity,FR
+        and:
+        http://myIP.oled2/set?id=my_api_key
+    </pre>
+    <h1>And add MQTT Password!</h1>
+    <pre>
+        http://myIP.oled/set?mqttpass=my_mqtt_password
+    </pre>
+</body>
+</html>
+)";
+    request->send(200, "text/html", message);
   });
 
 
