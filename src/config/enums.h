@@ -21,6 +21,8 @@ struct Configmqtt {
   char MQTT_SERVER[65]; // NOSONAR
   char MQTT_USER[65]; // NOSONAR
   char MQTT_PASSWORD[65]; // NOSONAR
+  char shelly_ip[20]; // NOSONAR
+  IPAddress convertedIP;
   uint16_t MQTT_PORT;
   String mac_routeur;
   String topic;
@@ -28,6 +30,7 @@ struct Configmqtt {
     public:bool sauve_mqtt() {
     preferences.begin("MQTT", false);
     preferences.putString("password",MQTT_PASSWORD);
+    preferences.putString("shelly",shelly_ip);
     preferences.end();
     return true; 
     }
@@ -37,6 +40,14 @@ struct Configmqtt {
     String tmp;
     tmp = preferences.getString("password", "");
     tmp.toCharArray(MQTT_PASSWORD,65);
+    #ifdef SHELLY
+    String shelly_ip_str = preferences.getString("shelly", "");
+    // Check if the IP string from config is valid and convert it to IPAddress
+    Serial.println("Shelly IP: " + shelly_ip_str);
+    convertedIP.fromString(shelly_ip_str);
+    Serial.println("Converted IP: " + convertedIP.toString());
+    #endif
+
     preferences.end();
     if (strcmp(MQTT_PASSWORD,"") == 0) { return false; }
     return true;

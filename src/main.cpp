@@ -51,6 +51,11 @@ time_t now;
 Configmeteo configmeteo;
 bool connect_mqtt = false;
 
+#ifdef SHELLY
+  #include "functions/Shelly.h"  
+    Shelly shelly;
+#endif
+
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
@@ -61,6 +66,10 @@ void setup() {
     Serial.println("Erreur de récupération de la configuration météo");
   }
   
+  #ifdef SHELLY
+    shelly.shelly_ip = IPAddress(192,168,1,109); // adresse ip du shelly
+  #endif
+
   OPEN_WEATHER_MAP_APP_ID = configmeteo.MAP_ID;
   OPEN_WEATHER_MAP_LOCATION = configmeteo.MAP_LOCATION;
   /// init des tasks 
@@ -105,17 +114,23 @@ void setup() {
 
   configmqtt.recup_config();
 
-  if (configmqtt.recup_mqtt()) {
-    Serial.println("MQTT_PASSWORD présent");
-    connect_mqtt = true;
-  }
-  else {
-    Serial.println("MQTT_PASSWORD absent");
-  }
+  #ifndef SHELLY
+    if (configmqtt.recup_mqtt()) {
+      Serial.println("MQTT_PASSWORD présent");
+      connect_mqtt = true;
+    }
+    else {
+      Serial.println("MQTT_PASSWORD absent");
+    }
 
-  if (connect_mqtt) {
-    configmqtt.connect_mqtt();
-  }
+    if (connect_mqtt) {
+      configmqtt.connect_mqtt();
+    }
+  #endif
+  #ifdef SHELLY
+    configmqtt.recup_mqtt();
+    shelly.shelly_ip = configmqtt.convertedIP; // adresse ip du shelly
+  #endif
 
   //runner.addTask(Task_getdata); // ajout de la tache voltage
   runner.addTask(meteo_data); // ajout de la tache météo
@@ -147,6 +162,24 @@ void loop() {
     ESP.restart();
 
   }
+
+  #ifdef SHELLY
+
+  puissance = shelly.shelly_port(0); // récupération de la puissance du shelly
+  routage = shelly.shelly_port(1); // récupération de la puissance du shelly
+  #ifdef DEBUG
+  Serial.println("puissance : ");
+  Serial.println(puissance);
+  Serial.println("routage : ");
+  Serial.println(routage);
+  #endif
+ // faire une boule de temps de 15s avec des yields pour ne pas bloquer le programme
+  for (int i = 0; i < 15; i++) {
+    delay(1000);
+    runner.execute();
+    yield();
+  }
+  #endif
 
 }
 

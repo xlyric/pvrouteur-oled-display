@@ -81,8 +81,13 @@ struct Oled {
 };
 
 Oled oled; 
+#ifdef SHELLY
+FrameCallback frames[] = { display_routage, drawDateTime, drawCurrentWeather, drawForecast  };
+   int numberOfFrames = 4;
+#else
 FrameCallback frames[] = { display_temperature, display_routage, drawDateTime, drawCurrentWeather, drawForecast  };
    int numberOfFrames = 5;
+#endif
 OverlayCallback overlays[] = { drawHeaderOverlay };
    int numberOfOverlays = 1;
 

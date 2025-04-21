@@ -15,8 +15,8 @@
 
 const char* HOSTNAME= "Sunstain-OLED";
 
-#define VERSION "1.0"
-
+#define VERSION "1.1"
+//#define DEBUG 1
 // config mqtt
 //#define MQTT_SERVER "192.168.1.22"
 //#define MQTT_PORT 1883

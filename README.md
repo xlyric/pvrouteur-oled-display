@@ -49,6 +49,10 @@ les informations seront stockées en ROM jusqu'a "Erase Flash" de l'ESP8266
 Pour le MQTT, il faudra juste lui spécifier le mot de passe. les autres informations de connexions sont directement récupérées sur le routeur
 http://monIP.oled2/set?mqttpass=mon_pass_mqtt
 
+# Récupération des inormations shelly EM Pro
+il est possible de récuperer les informations des 2 sondes du Shelly EM, il faut juste entrer l'IP 
+http://myIP.oled/set?shelly_ip=Shelly_ip
+
 # Demo Vidéo 
 
 [![Démo de l'afficheur](https://img.youtube.com/vi/-gTVRqzRFMw/0.jpg)](https://youtube.com/shorts/-gTVRqzRFMw)

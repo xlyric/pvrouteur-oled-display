@@ -85,6 +85,14 @@ void call_pages() {
         configmqtt.sauve_mqtt();
       }
 
+      // si le paramètre est shelly_ip on sauvegarde la valeur
+      if (request->hasParam("shelly_ip")) {
+        request->getParam("shelly_ip")->value().toCharArray(configmqtt.shelly_ip,20);
+        Serial.println(configmqtt.shelly_ip);
+        configmqtt.sauve_mqtt();
+      }
+
+
     const char* message = R"(
 <!DOCTYPE html>
 <html lang="en">
@@ -104,6 +112,10 @@ void call_pages() {
     <h1>And add MQTT Password!</h1>
     <pre>
         http://myIP.oled/set?mqttpass=my_mqtt_password
+    </pre>
+    <h1>For take Shelly information</h1>
+    <pre>
+        http://myIP.oled/set?shelly_ip=Shelly_ip
     </pre>
 </body>
 </html>
